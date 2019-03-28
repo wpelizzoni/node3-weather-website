@@ -36,7 +36,7 @@ weatherForm.addEventListener('submit', (e) => {
     messageOne.textContent = 'Loading...'  // display "loading..."" on the page
     messageTwo.textContent = ''
 
-    fetch('http://localhost:3000/weather?address=' + location).then((response) => {
+    fetch('/weather?address=' + location).then((response) => {
         response.json().then((data) => {
          if (data.error) {
             messageOne.textContent = data.error
@@ -49,7 +49,7 @@ weatherForm.addEventListener('submit', (e) => {
 
 })
 
-/* For production, visit https://github.com/expressjs/express and set up an account.  wpelizzoni 
+/* For production, visit https://github.com/expressjs/express and set up an account <wpelizzoni> 
 Now go to https://www.heroku.com for the application deployment platform that enables us to 
 take our application code in NODE-COURSE and deploy it on their production server. Note that
 you can use Heroku for Python, Java, PHP, Ruby on Rails, Node.js. Now Google heroku cli 
@@ -82,6 +82,76 @@ the tree view to the left).
 because we didn't create it.  Create a .gitignore file in the web-server directory where we list
 things we don';'t want git to track like node_modules.  
 
-<git add src/> to track source files or <git add .> to track everything (all source files and othe files
-listed in the <git status> output)
+<git add src/> to track source files or <git add .> to track everything (all source files and other files
+listed in the <git status> output).
+
+<git commmit -m "Initial commit"> identifies committed files and changes all of them back to their 
+default color to the left.  When we change a file, we see its tree structure in orange up to the 
+file that was changed. <git status> will show "Changes not staged for commit".  We can enter 
+<git add .> again to move the changed file to the staging area. Now we can enter 
+<git commit -m "Remove unnecessary console.log call">
+
+Change the directory and enter <git init> to set up a different repository for notes-app.  
+
+SSH is used to communicate with another machine.  On Windows, we need to use the Git Bash terminal
+application to access SSH commands. Find the git-bash .exe in C:/Program Files/Git and run it.  
+This opens a Bash pop-up window. Enter <ls -a -l ~/.ssh>.  If there is no such folder or file, 
+enter <ssh-keygen -t rsa -b 4096 -C "wpelizzoni@yahoo.com"> to create keys.  The keys will be
+stored in the .ssh directory. Press enter to accept the default location. Press enter when
+prompted for a passphrase. Press the up arrow key twice to repeat the ls command.
+
+See the id_rsa and id_rsa.pub files.  On Windows bash enter <eval $(ssh-agent -s)> to start the agent 
+and get the agent id.  Now register the key with the private file using <ssh-add ~/.ssh/id_rsa>.
+
+Return to the browser and enter https://github.com.  Click the <+> icon and select <new repository>.
+Fill in a respository name (e.g. node3-weather-website).  Use a public repository because private 
+repositories cost money.  Skip other options and click <Create Repository>.  We will use the 
+"push an existing repository from the command line" option which only sets up the communication
+for future use. Cut the first git command and paste it into the Visual Studio Code console.  The 
+first command creates a remote connection called "origin" which we can push to.  
+
+Now select "settings" in the pull down menu on the upper right corner of the browser page.  Click on
+<SSH and GPG keys>. Click <New SSH key>. Enter "Work Laptop" in the <Title>.  Return to the 
+Git Bash window and enter <cat ~/.ssh/id_rsa.pub>.  Copy the long key string and paste it in the 
+browser window in the "Key" area.  Now click <Add SSH Key>.  
+
+To test the connection to the GitHub server, return to the Bash window and enter 
+<ssh -T git@github.com>.  The response is 
+"The authenticity of host 'github.com (192.30.255.113)' can't be established.
+RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
+Are you sure you want to continue connecting (yes/no)?" enter <yes> to be successfully 
+authenticated.  Note that we only need to get ssh keys and configure them once.
+
+Now we return to the respository page in the browser and paste in the second commend
+<git push -u origin master> into the Visual Studio Code console.  A github window will pop 
+up on the screen requesting a login to github.  After logging in, the Visual Studio Code 
+console will display a "Branch 'master' set up to track remote 'master' from 'origin'" message.
+
+Return to the browser where github is open and refresh the page to see the uploaded commits.
+Click on any file to view and see who contributed it.  Note that we can track issues, set up 
+a wiki to track documentation, etc.  
+
+Now we want to set up our ssh private key with Heroku.  From Visual Studio Code enter 
+<heroku keys:add>.  Answer Yes to upload the key to Heroku.  Now create the Heroku application 
+on the Heroku server by entering <heroku create winton-weather-application> from the web-server folder.
+Heroku returns a URL where we can view the application and another URL for the git repository where 
+we push the code we want to deploy. 
+
+We tell Heroku to run src/app.js by specifying it in the package.json script which contains
+key-value pairs.  Enter <"start": "node src/app.js"> in the script.  Note that we can test the start
+script locally on the Visual Studio Code console by entering the command <npm run start> and 
+checking localhost:3000 on the browser.
+
+Next we go to app.js server source code in the src folder and update the port at the bottom of 
+the source code.  Define "const port = process.env.PORT || 3000" and change the listen call to 
+"app.listen(port, () => {
+    console.log('Server is up on port ' + port)
+})"
+
+Now go to the public directory in the client side javascript (this file). Chwenge the fetch
+call to "fetch('/weather?address=' + location).then((response) => {" which will automotically
+run on port 3000 if it is executing locally or on the Heroku port if executing on the server.
+
+Now make a commit to push the code changes up to Heroku.  Enter <CTL> C on the console, enter 
+git status to see the changed files, enter <git add .>, enter git commit -m "Setup app for Heroku"
  */

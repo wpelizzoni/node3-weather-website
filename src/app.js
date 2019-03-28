@@ -16,6 +16,9 @@ Look at "expressjs.com/en/4x/api.html" to see built-in settings, etc.   */
 // console.log(__dirname)
 // console.log(path.join(__dirname), '../public')  
 const app = express() 
+/* Use the port number provided by Heroku or 3000 if we're running the application locally in VS Code. */
+const port = process.env.PORT || 3000
+
 const publicDirectoryPath = path.join(__dirname, '../public')
 /* Express looks for html files in the views folder by default. We can rename this folder to anything 
 (e.g. temnplates) but need to set up a viewsPath to make it work. */
@@ -165,8 +168,8 @@ console and enter <node src/app.js> to start the server. We can shut down the we
 From the browser, we can access th3e server with <localhost:3000>.  To add more code to the server and
 rerun it, enter <CTL> C and then <nodemon src/app.js> on the console which will automatically restart
 the server whenever we make a change.  */
-app.listen(3000, () => {
-    console.log('Server is up on port 3000.')
+app.listen(port, () => {
+    console.log('Server is up on port ' + port)
 })
 
 /* Verify changes to the server HTML files by going to the browser, clicking the three horizontal bars,
