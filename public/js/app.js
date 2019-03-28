@@ -6,11 +6,11 @@ when the response arrives. We call the response.json() function to parse into a 
 To test, go to the three horizontal bars in the upper right cornwe of the browser window, select
 <web developer> and select <web console>.  Now click the refresh button on the browser a 
 couple of times. */
-fetch('http://puzzle.mead.io/puzzle').then((response) => {
-    response.json().then((data) => {
-        console.log(data)
-    })
-})
+// fetch('http://puzzle.mead.io/puzzle').then((response) => {
+//     response.json().then((data) => {
+//         console.log(data)
+//     })
+// })
 
 
 /* get a javascript representation of the html "form" element defined in index.hbs.  This enables us to 
@@ -148,10 +148,17 @@ the source code.  Define "const port = process.env.PORT || 3000" and change the 
     console.log('Server is up on port ' + port)
 })"
 
-Now go to the public directory in the client side javascript (this file). Chwenge the fetch
+Now go to the public directory in the client side javascript (this file). Change the fetch
 call to "fetch('/weather?address=' + location).then((response) => {" which will automotically
 run on port 3000 if it is executing locally or on the Heroku port if executing on the server.
 
 Now make a commit to push the code changes up to Heroku.  Enter <CTL> C on the console, enter 
-git status to see the changed files, enter <git add .>, enter git commit -m "Setup app for Heroku"
+git status to see the changed files, enter <git add .>, enter <git commit -m "Setup app for Heroku">.
+Now enter <git push> to push the code to the "origin" remote.  Go to the browser and refresh the
+github repository page to see the changes.
+
+We can see all of the remotes configured with <git remote>.  To deploy, enter <git push heroku master>
+to push our latest commit up to heroku git remote. When Heroku sees that new commits have been pushed 
+it will deploy our application again. Now refresh the browser tab where the URL provided by Heroku
+was entered. 
  */
