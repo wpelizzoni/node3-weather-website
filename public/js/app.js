@@ -3,7 +3,7 @@ console.log ('Client side javascript file is loaded!')
 
 /* Fetch can only be used from client side javascript.  Then is the callback function to run
 when the response arrives. We call the response.json() function to parse into a javascript object. 
-To test, go to the three horizontal bars in the upper right cornwe of the browser window, select
+To test, go to the three horizontal bars in the upper right corner of the browser window, select
 <web developer> and select <web console>.  Now click the refresh button on the browser a 
 couple of times. */
 // fetch('http://puzzle.mead.io/puzzle').then((response) => {
@@ -16,7 +16,7 @@ couple of times. */
 /* get a javascript representation of the html "form" element defined in index.hbs.  This enables us to 
 manipulate the element in code. */
 const weatherForm = document.querySelector('form')
-/* get the input element */
+/* get the input element (look inside the form element) */
 const search = document.querySelector('input')
 /* Define a message for the message-1 placeholder in index.hbs html */
 const messageOne = document.querySelector('#message-1')
@@ -25,7 +25,7 @@ const messageTwo = document.querySelector('#message-2')
 messageOne.textContent = 'From JavaScript'
 
 /* Set up a listener to run code when someone submits a form (i.e. fills in the location in the form 
-    field).  Submit is the name of the event we are listening for. THe second parameter is the callback
+    field).  Submit is the name of the event we are listening for. The second parameter is the callback
     function that runs every time the event occurs. In index.hbs, make sure we run js/app.js after the 
     form is set up by the browser or an error will appear on the web console. */
 weatherForm.addEventListener('submit', (e) => {
@@ -33,11 +33,13 @@ weatherForm.addEventListener('submit', (e) => {
 
     const location = search.value  // store the location input
 
-    messageOne.textContent = 'Loading...'  // display "loading..."" on the page
+    messageOne.textContent = 'Loading...'  // display "loading..." on the page
     messageTwo.textContent = ''
 
-    fetch('/weather?address=' + location).then((response) => {
-        response.json().then((data) => {
+    /* fetch will automotically run on port 3000 if it is executing locally or on the Heroku port if 
+    executing on the server */
+    fetch('/weather?address=' + location).then((response) => {  
+        response.json().then((data) => {  // parse the response into a javascript object and store it in the data field
          if (data.error) {
             messageOne.textContent = data.error
          } else {
@@ -52,7 +54,7 @@ weatherForm.addEventListener('submit', (e) => {
 /* For production, visit https://github.com/expressjs/express and set up an account <wpelizzoni> 
 Now go to https://www.heroku.com for the application deployment platform that enables us to 
 take our application code in NODE-COURSE and deploy it on their production server. Note that
-you can use Heroku for Python, Java, PHP, Ruby on Rails, Node.js. Now Google heroku cli 
+you can use Heroku for Python, Java, PHP, Ruby on Rails, Node.js. Now Google "heroku cli" 
 for commands that can be used from the Visual Studio Code console to deploy the application. 
 Look for Heroku Dev Center. Now install for your target computer.  To test, use <CTL> C to shut 
 down nodemon and click the trash can icon to close the console.  To restart the console, 
@@ -73,17 +75,18 @@ that we ultimately want to include in a new commit are placed in "Unstaged Chang
 to the next <commit>.  
 
 To run Git, we have to enter a command from the web-server folder (not the public folder). Enter
-<git init> so that git will create a hidden .git repository.  Files not yet committed in the 
-web-server folder to the left will appear in green. We can see the git repository by clicking on 
-the gear icon, clicking <Settings>, and scrolling down to the Excluded files (i.e. excluded from 
-the tree view to the left).  
+<cd C:\Users\WJPII\Desktop\node-course\web-server>.  Enter <git init> so that git will create a 
+hidden .git repository.  Files not yet committed in the web-server folder to the left will
+appear in green. We can see the git repository by clicking on the gear icon, clicking <Settings>, 
+and scrolling down to the Excluded files (i.e. excluded from the tree view to the left).
+  
 
 <git status> outputs current status.  Git doesn't need to know what's in the "node-modules" directory 
 because we didn't create it.  Create a .gitignore file in the web-server directory where we list
-things we don';'t want git to track like node_modules.  
+things we don't want git to track like node_modules.  
 
-<git add src/> to track source files or <git add .> to track everything (all source files and other files
-listed in the <git status> output).
+<git add src/> to track source files or <git add .> to track everything (all source files and other 
+files listed in the <git status> output).
 
 <git commmit -m "Initial commit"> identifies committed files and changes all of them back to their 
 default color to the left.  When we change a file, we see its tree structure in orange up to the 
@@ -107,13 +110,22 @@ Return to the browser and enter https://github.com.  Click the <+> icon and sele
 Fill in a respository name (e.g. node3-weather-website).  Use a public repository because private 
 repositories cost money.  Skip other options and click <Create Repository>.  We will use the 
 "push an existing repository from the command line" option which only sets up the communication
-for future use. Cut the first git command and paste it into the Visual Studio Code console.  The 
+for future use. Cut the first git command and paste it into the Visual Studio Code console.  
+<git remote add origin https://github.com/wpelizzoni/node3-weather-website.git> The first command 
 first command creates a remote connection called "origin" which we can push to.  
 
-Now select "settings" in the pull down menu on the upper right corner of the browser page.  Click on
-<SSH and GPG keys>. Click <New SSH key>. Enter "Work Laptop" in the <Title>.  Return to the 
-Git Bash window and enter <cat ~/.ssh/id_rsa.pub>.  Copy the long key string and paste it in the 
-browser window in the "Key" area.  Now click <Add SSH Key>.  
+Now select "settings" in the pull down menu on the upper right corner of the browser page (the box 
+next to the "+").  Click on <SSH and GPG keys>. Click <New SSH key>.  Enter "Work Laptop" in the <Title>.
+Return to the Git Bash window and enter <cat ~/.ssh/id_rsa.pub>.  Copy the long key string and paste it 
+in the browser window in the "Key" area.  If you cannot uut and paste from the Git Bash window, then 
+(1) Press alt+space — it will bring window context menu.
+(2) Press e, k — or Edit -> Mark.
+(3) Now move the text cursor around the cmd.exe window with arrow keys.
+(4) Select block of text by holding shift key and selecting the desired block with arrow keys.
+(5) Press enter to copy selected block of text.
+(6) Paste text from the clipboard into the console using alt+space, e, p shortcut, or paste it 
+into the browser.
+return to the browser and click <Add SSH Key>.  
 
 To test the connection to the GitHub server, return to the Bash window and enter 
 <ssh -T git@github.com>.  The response is 
@@ -122,9 +134,10 @@ RSA key fingerprint is SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8.
 Are you sure you want to continue connecting (yes/no)?" enter <yes> to be successfully 
 authenticated.  Note that we only need to get ssh keys and configure them once.
 
-Now we return to the respository page in the browser and paste in the second commend
+Now we return to the respository page in the browser and paste in the second command
 <git push -u origin master> into the Visual Studio Code console.  A github window will pop 
-up on the screen requesting a login to github.  After logging in, the Visual Studio Code 
+up on the screen requesting a login to github.  If it doesn't, we may see text requesting 
+username and password for git.  After logging in, the Visual Studio Code 
 console will display a "Branch 'master' set up to track remote 'master' from 'origin'" message.
 
 Return to the browser where github is open and refresh the page to see the uploaded commits.
@@ -135,7 +148,9 @@ Now we want to set up our ssh private key with Heroku.  From Visual Studio Code 
 <heroku keys:add>.  Answer Yes to upload the key to Heroku.  Now create the Heroku application 
 on the Heroku server by entering <heroku create winton-weather-application> from the web-server folder.
 Heroku returns a URL where we can view the application and another URL for the git repository where 
-we push the code we want to deploy. 
+we push the code we want to deploy.  If the application was already deployed no URLs are returned.  
+Log into Heroku on the browser, go to the dashboard (see nine dots in a square pattern), delete the 
+application and redeploy it.   
 
 We tell Heroku to run src/app.js by specifying it in the package.json script which contains
 key-value pairs.  Enter <"start": "node src/app.js"> in the script.  Note that we can test the start
@@ -152,13 +167,20 @@ Now go to the public directory in the client side javascript (this file). Change
 call to "fetch('/weather?address=' + location).then((response) => {" which will automotically
 run on port 3000 if it is executing locally or on the Heroku port if executing on the server.
 
-Now make a commit to push the code changes up to Heroku.  Enter <CTL> C on the console, enter 
-git status to see the changed files, enter <git add .>, enter <git commit -m "Setup app for Heroku">.
-Now enter <git push> to push the code to the "origin" remote.  Go to the browser and refresh the
-github repository page to see the changes.
+Now make a commit to push the code changes up to Heroku.  Enter <CTL> C on the console, and enter 
+git status to see the changed files.  We may need to enter 
+<git config --global user.email "wpelizzoni@yahoo.com"> and
+<git config --global user.name "wpelizzoni@yahoo.com">
+Enter <git add .>, enter <git commit -m "Setup app for Heroku">.
+
+Now enter <git push> to push the code to the "origin" remote.  We may need to enter git username and
+password again.  Go to the browser and refresh the github repository page to see the changes.
 
 We can see all of the remotes configured with <git remote>.  To deploy, enter <git push heroku master>
 to push our latest commit up to heroku git remote. When Heroku sees that new commits have been pushed 
 it will deploy our application again. Now refresh the browser tab where the URL provided by Heroku
 was entered. 
+
+I need to do <CTL> s on my desktop to save files in order for nodemon to run.  This is different from 
+the work laptop.
  */
